@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Miguel Castro e Silva — Proposta de design</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Inter:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #E4E3E0; --ink: #14110F; --wine: #0B0B0B; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 500 14px/1.5 "Inter", sans-serif; }
+  header { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; padding: 22px 32px 0; }
+  h1 { margin: 0; font: 300 30px/1.1 "Cormorant Garamond", serif; }
+  h1 em { color: var(--wine); }
+  header p { margin: 0; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; opacity: .65; }
+  .stage { display: flex; gap: 40px; align-items: flex-start; justify-content: center; padding: 22px 32px 32px; }
+  .dev { display: flex; flex-direction: column; gap: 10px; }
+  .dev > span { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; opacity: .65; }
+  .browser { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 30px 60px -30px rgba(0,0,0,.45); }
+  .browser__bar { height: 34px; display: flex; align-items: center; gap: 7px; padding: 0 14px; background: #EFEBE4; border-bottom: 1px solid rgba(0,0,0,.08); }
+  .browser__bar i { width: 10px; height: 10px; border-radius: 50%; background: #CFC8BC; }
+  .browser__bar b { margin-left: 14px; font-weight: 500; font-size: 11px; opacity: .55; }
+  .scaler { overflow: hidden; }
+  .scaler iframe { border: 0; display: block; transform-origin: 0 0; }
+  .phone { padding: 12px; background: #14110F; border-radius: 46px; box-shadow: 0 30px 60px -30px rgba(0,0,0,.55); }
+  .phone .scaler { border-radius: 34px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Miguel <em>Castro</em> e Silva — proposta</h1>
+  <p>Computador e telemóvel · cada ecrã faz scroll</p>
+</header>
+<div class="stage">
+  <div class="dev">
+    <span>Computador · 1440</span>
+    <div class="browser">
+      <div class="browser__bar"><i></i><i></i><i></i><b>miguelcastrosilva.com</b></div>
+      <div class="scaler" id="dWrap"><iframe id="d" src="index.html" width="1440" title="Computador"></iframe></div>
+    </div>
+  </div>
+  <div class="dev">
+    <span>Telemóvel · 390</span>
+    <div class="phone"><div class="scaler" id="mWrap"><iframe id="m" src="index.html" width="390" title="Telemóvel"></iframe></div></div>
+  </div>
+</div>
+<script>
+  function fit() {
+    var h = Math.max(520, window.innerHeight - 140);
+    var mScale = Math.min(1, (h - 24) / 844);
+    var mW = 390 * mScale;
+    var free = window.innerWidth - 64 - 40 - mW - 24;
+    var dScale = Math.min(1, free / 1440);
+    var dH = (h - 34) / dScale;
+    var d = document.getElementById('d'), m = document.getElementById('m');
+    d.style.height = dH + 'px'; d.style.transform = 'scale(' + dScale + ')';
+    document.getElementById('dWrap').style.cssText = 'width:' + 1440 * dScale + 'px;height:' + (h - 34) + 'px';
+    m.style.height = '844px'; m.style.transform = 'scale(' + mScale + ')';
+    document.getElementById('mWrap').style.cssText = 'width:' + mW + 'px;height:' + 844 * mScale + 'px';
+  }
+  window.addEventListener('resize', fit); fit();
+</script>
+</body>
+</html>

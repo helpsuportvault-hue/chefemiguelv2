@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Miguel Castro e Silva — Cozinheiro</title>
+<meta name="description" content="Miguel Castro e Silva, cozinheiro. Porto, 1961. Casario, deCastro Gaia, Time Out Market e Cantina de Ventozelo.">
+<link rel="icon" href="../assets/img/logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Black and white. The only colour is in the food photos. */
+:root {
+  --black: #0B0B0B;
+  --ash: #161616;
+  --white: #FFFFFF;
+  --paper: #F4F3F0;
+  --gray: #6B6B6B;
+  --line: rgba(11, 11, 11, .14);
+  --line-w: rgba(255, 255, 255, .16);
+  --serif: "Cormorant Garamond", Garamond, Georgia, serif;
+  --sans: "Inter", Arial, sans-serif;
+  --gut: clamp(1.25rem, 4vw, 4.5rem);
+  --ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+body { margin: 0; background: var(--paper); color: var(--black); font: 400 1rem/1.7 var(--sans); -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3, p, figure, blockquote { margin: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+::selection { background: var(--black); color: var(--white); }
+
+.cap { font: 600 .68rem/1.4 var(--sans); letter-spacing: .2em; text-transform: uppercase; }
+.dim { color: var(--gray); }
+
+/* ── barra ── */
+.bar { position: fixed; top: 0; left: 0; right: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 2rem; height: 4.5rem; padding: 0 var(--gut); color: var(--white); transition: background .35s, color .35s, border-color .35s; border-bottom: 1px solid transparent; }
+.bar.solid { background: var(--paper); color: var(--black); border-color: var(--line); }
+.bar__mark { font: 500 1.45rem/1 var(--serif); letter-spacing: .01em; }
+.bar__nav { display: flex; gap: 2.2rem; }
+.bar__nav a { opacity: .85; transition: opacity .2s; }
+.bar__nav a:hover { opacity: 1; }
+.bar__burger { display: none; background: none; border: 0; padding: 0; color: inherit; font: 600 .68rem var(--sans); letter-spacing: .2em; text-transform: uppercase; cursor: pointer; }
+
+/* ── início ── */
+.hero { position: relative; height: 100vh; min-height: 560px; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 var(--gut) 2rem; color: var(--white); background: var(--black); overflow: hidden; }
+.hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; filter: grayscale(1) contrast(1.05); opacity: .78; transform: scale(1.04); animation: settle 2.4s var(--ease) forwards; }
+@keyframes settle { to { transform: none; } }
+.hero::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,.05) 55%); }
+.hero > :not(.hero__img) { position: relative; z-index: 2; }
+.hero h1 { font: 300 clamp(3.6rem, 12.4vw, 12rem)/.86 var(--serif); letter-spacing: -.02em; }
+.hero h1 span { display: block; padding-left: .55em; font-style: italic; }
+.hero__row { margin-top: clamp(2rem, 4vw, 3.5rem); padding-top: 1.1rem; border-top: 1px solid var(--line-w); display: flex; justify-content: space-between; gap: 1rem; }
+
+/* ── títulos de secção ── */
+.sec { padding: clamp(5rem, 9vw, 8rem) var(--gut); }
+.sec__head { display: flex; justify-content: space-between; align-items: baseline; gap: 1.5rem; margin-bottom: clamp(2rem, 4vw, 3.2rem); }
+.sec__title { font: 300 clamp(2.6rem, 5.6vw, 5rem)/1 var(--serif); letter-spacing: -.01em; }
+
+/* ── pratos ── */
+.dishes { padding-left: 0; padding-right: 0; }
+.dishes .sec__head { padding: 0 var(--gut); }
+.strip + .strip { margin-top: clamp(3rem, 5.5vw, 4.5rem); }
+.strip__head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0 var(--gut); margin-bottom: 1.1rem; }
+.strip__head h3 { font: 600 .74rem/1.3 var(--sans); letter-spacing: .2em; text-transform: uppercase; }
+.strip__head h3 span { font-weight: 400; color: var(--gray); margin-left: .6rem; letter-spacing: .12em; }
+.strip__nav { display: flex; gap: .5rem; }
+.strip__nav button { width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 50%; background: none; color: var(--black); cursor: pointer; display: grid; place-items: center; transition: background .2s, color .2s; }
+.strip__nav button:hover { background: var(--black); color: var(--white); }
+.track { display: flex; gap: clamp(.6rem, 1vw, 1rem); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 0 var(--gut); padding: 0 var(--gut) .5rem; scrollbar-width: none; }
+.track::-webkit-scrollbar { display: none; }
+.dish { flex: none; scroll-snap-align: start; width: clamp(240px, 27vw, 420px); cursor: zoom-in; }
+.dish__img { overflow: hidden; background: #E6E4DF; }
+.dish img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform 1s var(--ease); }
+.dish:hover img { transform: scale(1.035); }
+.dish figcaption { margin-top: .75rem; font: 400 1.25rem/1.2 var(--serif); }
+
+/* ── biografia ── */
+.bio { display: grid; grid-template-columns: 4fr 8fr; gap: clamp(2rem, 6vw, 6rem); }
+.bio__side { position: sticky; top: 7rem; align-self: start; }
+.bio__side img { margin-top: 1.6rem; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; filter: grayscale(1); }
+.bio__side figcaption { margin-top: .7rem; }
+.bio__lead { font: 300 clamp(2rem, 3.6vw, 3.3rem)/1.12 var(--serif); letter-spacing: -.005em; }
+.bio__text { margin-top: clamp(2rem, 4vw, 3rem); columns: 2; column-gap: clamp(1.5rem, 3vw, 3rem); font-size: 1rem; line-height: 1.75; color: #2B2B2B; }
+.bio__text p { break-inside: avoid; margin-bottom: 1.1rem; }
+.bio__text p:first-child::first-letter { float: left; font: 400 4.2rem/.78 var(--serif); padding: .4rem .55rem 0 0; }
+.facts { margin-top: clamp(2.5rem, 5vw, 4rem); display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--black); }
+.facts div { padding: 1.2rem 1rem 0 0; }
+.facts b { display: block; font: 300 clamp(2.2rem, 3.4vw, 3.2rem)/1 var(--serif); }
+.facts span { display: block; margin-top: .5rem; font-size: .8rem; line-height: 1.45; color: var(--gray); }
+
+/* ── percurso: capítulos ── */
+.chapters { background: var(--black); color: var(--white); }
+.chapter { position: relative; min-height: 62vh; display: flex; align-items: center; padding: clamp(4rem, 8vw, 7rem) var(--gut); overflow: hidden; border-top: 1px solid var(--line-w); }
+.chapter__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .38; filter: grayscale(1); }
+.chapter::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(11,11,11,.92) 0%, rgba(11,11,11,.55) 50%, rgba(11,11,11,.2) 100%); }
+.chapter.r::before { background: linear-gradient(270deg, rgba(11,11,11,.92) 0%, rgba(11,11,11,.55) 50%, rgba(11,11,11,.2) 100%); }
+.chapter.r { justify-content: flex-end; }
+.chapter__in { position: relative; z-index: 2; max-width: 30rem; }
+.chapter__when { color: rgba(255,255,255,.6); }
+.chapter h3 { margin-top: 1rem; font: 300 clamp(2.4rem, 5vw, 4.4rem)/1 var(--serif); letter-spacing: -.01em; }
+.chapter p { margin-top: 1.2rem; color: rgba(255,255,255,.78); font-size: .98rem; line-height: 1.7; }
+.chapters__intro { padding: clamp(5rem, 9vw, 8rem) var(--gut) clamp(3rem, 5vw, 4rem); }
+.chapters__intro .sec__title { color: var(--white); }
+
+/* ── livros ── */
+.books { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.25rem, 4vw, 4rem); max-width: 1100px; }
+.book img { width: 100%; box-shadow: 0 30px 40px -26px rgba(0,0,0,.55); }
+.book figcaption { margin-top: 1.3rem; }
+.book b { display: block; margin-top: .35rem; font: 400 1.45rem/1.15 var(--serif); }
+
+/* ── imprensa ── */
+.press { border-top: 1px solid var(--line); }
+.press blockquote { max-width: 52rem; font: italic 300 clamp(2rem, 4.4vw, 3.8rem)/1.1 var(--serif); }
+.press cite { display: block; margin-top: 1.2rem; font-style: normal; }
+.press__list { margin-top: clamp(2.5rem, 5vw, 3.5rem); display: flex; flex-wrap: wrap; gap: .6rem 2.4rem; font: 400 1.35rem/1.3 var(--serif); color: var(--gray); }
+
+/* ── contacto ── */
+.contact { background: var(--black); color: var(--white); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem, 7vw, 7rem); }
+.contact h2 { font: 300 clamp(3rem, 7vw, 6.4rem)/.95 var(--serif); letter-spacing: -.01em; }
+.contact h2 em { font-weight: 300; }
+.contact__note { margin-top: 1.6rem; max-width: 24rem; color: rgba(255,255,255,.72); }
+.contact__meta { margin-top: 2.6rem; display: grid; gap: 1.4rem; }
+.contact__meta dt { color: rgba(255,255,255,.5); }
+.contact__meta dd { margin: .3rem 0 0; font: 400 1.25rem var(--serif); }
+.opts { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .9rem; }
+.opts button { padding: .7rem 1.2rem; border: 1px solid rgba(255,255,255,.35); background: none; color: var(--white); font: 500 .8rem var(--sans); cursor: pointer; transition: background .2s, color .2s; }
+.opts button.on { background: var(--white); color: var(--black); border-color: var(--white); }
+.field { display: block; margin-top: 1.6rem; color: rgba(255,255,255,.6); }
+.field span { display: block; height: 2.6rem; border-bottom: 1px solid rgba(255,255,255,.35); }
+.field span.area { height: 5.5rem; }
+.send { margin-top: 2rem; padding: 1.05rem 2.2rem; border: 0; background: var(--white); color: var(--black); font: 600 .72rem var(--sans); letter-spacing: .2em; text-transform: uppercase; cursor: pointer; }
+
+/* ── rodapé ── */
+.foot { background: var(--black); color: rgba(255,255,255,.5); border-top: 1px solid var(--line-w); padding: 1.6rem var(--gut); display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.etiqueta-mawebs { position: relative; display: inline-flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 24px; border-radius: 2px; background: #ded9cb; color: #1a1a1c; }
+.etiqueta-mawebs::before { content: ""; position: absolute; inset: 4px; border: 1px dashed rgba(0,0,0,.3); }
+.etiqueta-mawebs__nome { font: 800 12px/1.5 Arial, sans-serif; letter-spacing: .15em; }
+.etiqueta-mawebs__local { font: 400 8.5px/1.5 Consolas, monospace; letter-spacing: .15em; color: rgba(0,0,0,.5); }
+
+/* ── ampliar foto ── */
+.lb { position: fixed; inset: 0; z-index: 50; background: #080808; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4rem var(--gut) 2rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
+.lb.open { opacity: 1; visibility: visible; }
+.lb img { max-width: 100%; max-height: 78vh; object-fit: contain; }
+.lb__cap { margin-top: 1.1rem; color: var(--white); text-align: center; }
+.lb__cap b { display: block; font: 400 1.6rem var(--serif); }
+.lb__cap span { color: rgba(255,255,255,.55); }
+.lb button { position: absolute; background: none; border: 0; color: var(--white); cursor: pointer; padding: 1rem; }
+.lb__x { top: .6rem; right: calc(var(--gut) - 1rem); font: 600 .68rem var(--sans); letter-spacing: .2em; text-transform: uppercase; }
+.lb__p { left: calc(var(--gut) - 1rem); top: 50%; transform: translateY(-50%); }
+.lb__n { right: calc(var(--gut) - 1rem); top: 50%; transform: translateY(-50%); }
+
+/* ── menu do telemóvel ── */
+.mnav { position: fixed; inset: 0; z-index: 40; background: var(--black); color: var(--white); display: flex; flex-direction: column; padding: 0 var(--gut) 2rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
+.mnav.open { opacity: 1; visibility: visible; }
+.mnav__top { display: flex; justify-content: space-between; align-items: center; height: 4.5rem; }
+.mnav__top button { background: none; border: 0; color: inherit; font: 600 .68rem var(--sans); letter-spacing: .2em; text-transform: uppercase; cursor: pointer; }
+.mnav nav { margin-top: 2rem; display: grid; }
+.mnav nav a { padding: .8rem 0; border-bottom: 1px solid var(--line-w); font: 300 2.4rem/1.1 var(--serif); }
+body.locked { overflow: hidden; }
+
+/* entrada suave */
+.rise { opacity: 0; transform: translateY(22px); transition: opacity 1s var(--ease), transform 1s var(--ease); }
+.rise.in { opacity: 1; transform: none; }
+
+@media (max-width: 900px) {
+  .bar__nav { display: none; }
+  .bar__burger { display: block; }
+  .bio, .contact { grid-template-columns: 1fr; }
+  .bio__side { position: static; }
+  .bio__side img { aspect-ratio: 16 / 11; }
+  .bio__text { columns: 1; }
+  .facts { grid-template-columns: 1fr 1fr; row-gap: 1.6rem; }
+  .chapter, .chapter.r { justify-content: flex-start; min-height: 0; padding-top: 9rem; padding-bottom: 3.5rem; align-items: flex-end; }
+  .chapter::before, .chapter.r::before { background: linear-gradient(to top, rgba(11,11,11,.95) 0%, rgba(11,11,11,.5) 60%, rgba(11,11,11,.25) 100%); }
+  .books { grid-template-columns: 1fr 1fr 1fr; gap: .9rem; }
+  .book b { font-size: 1.05rem; }
+}
+@media (max-width: 600px) {
+  .hero { height: 88vh; }
+  .hero h1 span { padding-left: .3em; }
+  .hero__row a { display: none; }
+  .strip__nav { display: none; }
+  .dish { width: 72vw; }
+  .dish figcaption { font-size: 1.1rem; }
+  .sec__head { flex-direction: column; gap: .6rem; }
+  .press__list { font-size: 1.15rem; gap: .4rem 1.4rem; }
+  .foot { flex-direction: column; text-align: center; }
+  .lb__p, .lb__n { top: auto; bottom: 1rem; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__img { animation: none; transform: none; }
+  .rise { opacity: 1; transform: none; transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="bar" id="bar">
+  <a class="bar__mark" href="#top">Miguel Castro e Silva</a>
+  <nav class="bar__nav cap">
+    <a href="#pratos">Pratos</a>
+    <a href="#biografia">Biografia</a>
+    <a href="#percurso">Percurso</a>
+    <a href="#livros">Livros</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+  <button class="bar__burger" id="burger" type="button">Menu</button>
+</header>
+
+<div class="mnav" id="mnav">
+  <div class="mnav__top"><span class="bar__mark">Miguel Castro e Silva</span><button type="button" id="mclose">Fechar</button></div>
+  <nav>
+    <a href="#pratos">Pratos</a>
+    <a href="#biografia">Biografia</a>
+    <a href="#percurso">Percurso</a>
+    <a href="#livros">Livros</a>
+    <a href="#imprensa">Imprensa</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+</div>
+
+<main id="top">
+
+  <!-- Início -->
+  <section class="hero">
+    <img class="hero__img" src="../assets/img/MCS_site_base_home_2560x1400_pb-1980x1083.jpg" alt="Miguel Castro e Silva">
+    <h1>Miguel Castro<span>e Silva</span></h1>
+    <div class="hero__row cap">
+      <span>Cozinheiro · Porto, 1961</span>
+      <a href="#pratos">Ver os pratos ↓</a>
+    </div>
+  </section>
+
+  <!-- Pratos -->
+  <section class="sec dishes" id="pratos">
+    <div class="sec__head"><h2 class="sec__title rise">À mesa</h2><p class="cap dim rise">Quatro casas, uma cozinha</p></div>
+
+    <div class="strip" data-strip>
+      <div class="strip__head"><h3>Casario<span>Ribeira, Porto</span></h3><div class="strip__nav"><button type="button" data-dir="-1" aria-label="Anterior">←</button><button type="button" data-dir="1" aria-label="Seguinte">→</button></div></div>
+      <div class="track">
+        <figure class="dish"><div class="dish__img"><img src="img/Casario_robalo.jpg" alt="" loading="lazy"></div><figcaption>Robalo</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/Casario_vieira_acafrao.jpg" alt="" loading="lazy"></div><figcaption>Vieira com açafrão</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/Casario_polvo_agriao.jpg" alt="" loading="lazy"></div><figcaption>Polvo e agrião</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/Casario_rodovalho.jpg" alt="" loading="lazy"></div><figcaption>Rodovalho</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/Casario_terrina_sapateira.jpg" alt="" loading="lazy"></div><figcaption>Terrina de sapateira</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/Casario_novilho.jpg" alt="" loading="lazy"></div><figcaption>Novilho</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/Casario_tartelete_choco.jpg" alt="" loading="lazy"></div><figcaption>Tartelete de chocolate</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="strip" data-strip>
+      <div class="strip__head"><h3>deCastro<span>Vila Nova de Gaia</span></h3><div class="strip__nav"><button type="button" data-dir="-1" aria-label="Anterior">←</button><button type="button" data-dir="1" aria-label="Seguinte">→</button></div></div>
+      <div class="track">
+        <figure class="dish"><div class="dish__img"><img src="img/de_castro_arroz_marisco.jpg" alt="" loading="lazy"></div><figcaption>Arroz de marisco</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/de_castro_camarao_alho.jpg" alt="" loading="lazy"></div><figcaption>Camarão ao alho</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/de_castro_bisaro_arroz_cog.jpg" alt="" loading="lazy"></div><figcaption>Bísaro e arroz de cogumelos</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/de_castro_dourada.jpg" alt="" loading="lazy"></div><figcaption>Dourada</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/de_castro_feijao_tripas.jpg" alt="" loading="lazy"></div><figcaption>Feijão com tripas</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/de_castro_raia.jpg" alt="" loading="lazy"></div><figcaption>Raia</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/de_castro_morcela.jpg" alt="" loading="lazy"></div><figcaption>Morcela</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/de_castro_pudim_alho_frances.jpg" alt="" loading="lazy"></div><figcaption>Pudim de alho-francês</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/de_castro_tarte_queijo.jpg" alt="" loading="lazy"></div><figcaption>Tarte de queijo</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/de_castro_bolo_choco.jpg" alt="" loading="lazy"></div><figcaption>Bolo de chocolate</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="strip" data-strip>
+      <div class="strip__head"><h3>Time Out Market<span>Lisboa</span></h3><div class="strip__nav"><button type="button" data-dir="-1" aria-label="Anterior">←</button><button type="button" data-dir="1" aria-label="Seguinte">→</button></div></div>
+      <div class="track">
+        <figure class="dish"><div class="dish__img"><img src="img/2025_MCS_Mercado_Bacalhau_bras_peq.jpg" alt="" loading="lazy"></div><figcaption>Bacalhau à Brás</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/MCS_Mercado_TO_2025_03_lombo_bacalhau.jpg" alt="" loading="lazy"></div><figcaption>Lombo de bacalhau</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/MCS_Mercado_TO_2025_06_arroz_enchidos.jpg" alt="" loading="lazy"></div><figcaption>Arroz de enchidos</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/MCS_Mercado_TO_2025_04_vitela.jpg" alt="" loading="lazy"></div><figcaption>Vitela</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/MCS_Mercado_TO_2025_01_lula.jpg" alt="" loading="lazy"></div><figcaption>Lula</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/MCS_Mercado_TO_2025_05_caldo_verde.jpg" alt="" loading="lazy"></div><figcaption>Caldo verde</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="strip" data-strip>
+      <div class="strip__head"><h3>Cantina de Ventozelo<span>Douro</span></h3><div class="strip__nav"><button type="button" data-dir="-1" aria-label="Anterior">←</button><button type="button" data-dir="1" aria-label="Seguinte">→</button></div></div>
+      <div class="track">
+        <figure class="dish"><div class="dish__img"><img src="img/Cantina_Ventozelo_Almoco_Alcatra-Barosa-Arroz-Tomate.jpg" alt="" loading="lazy"></div><figcaption>Alcatra barrosã, arroz de tomate</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/MCS_Cantina_007.jpg" alt="" loading="lazy"></div><figcaption>O almoço da Cantina</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="img/MCS_Cantina_005.jpg" alt="" loading="lazy"></div><figcaption>Sopa e pão da casa</figcaption></figure>
+        <figure class="dish"><div class="dish__img"><img src="../assets/img/Cantina_de_Ventozelo_02_2560x1400-1980x1083.jpg" alt="" loading="lazy"></div><figcaption>A sala, na Quinta de Ventozelo</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Biografia -->
+  <section class="sec bio" id="biografia">
+    <figure class="bio__side rise">
+      <p class="cap">Biografia</p>
+      <img src="../assets/img/MCS_imprensa-0x0.jpg" alt="Miguel Castro e Silva ao fogão">
+      <figcaption class="cap dim">Porto, 1961</figcaption>
+    </figure>
+    <div>
+      <p class="bio__lead rise">Chegou à cozinha depois da música, da biologia e da indústria têxtil. Nunca mais saiu dela.</p>
+      <div class="bio__text rise">
+        <p>Miguel Castro e Silva nasceu no Porto em 1961. Antes de cozinhar tocou piano, depois baixo, e trabalhou alguns anos como técnico de som. Foi estudar Biologia para a Alemanha, curso que deixou a meio, e pagou as contas com turnos em restaurantes. De regresso ao Porto, passou pela indústria têxtil como diretor de produto.</p>
+        <p>Em 1992 mudou de vida e abriu o primeiro restaurante, numa quinta da Maia. Dois anos depois chegou à Foz com o Restaurante do Miguel e, em 1997, ao edifício da Bolsa, com o Bull &amp; Bear: Garfo de Ouro do Expresso, três Sóis Repsol e um lugar entre os 25 melhores restaurantes da Europa na lista do Financial Times.</p>
+        <p>Foi dos primeiros a mexer no receituário português quando isso ainda soava a desrespeito, e dos primeiros no país a cozinhar a baixa temperatura. Publicou três livros, deu aulas na escola Ferrandi, em Paris, tem três receitas no Larousse Gastronomique e cozinhou por Portugal na China, em França, na Bélgica, na Hungria e no Brasil.</p>
+        <p>Em 2009 mudou-se para Lisboa, onde abriu o deCastro e esteve à frente do Largo e do Less. Hoje a sua cozinha está no Casario, na Ribeira do Porto, no deCastro Gaia, no Time Out Market e na Cantina de Ventozelo, no Douro.</p>
+      </div>
+      <dl class="facts rise">
+        <div><dt><b>1992</b></dt><dd><span>Primeiro restaurante, na Maia</span></dd></div>
+        <div><dt><b>2000</b></dt><dd><span>Cozinheiro do Ano, Academia Portuguesa de Gastronomia</span></dd></div>
+        <div><dt><b>2017</b></dt><dd><span>Prémio de carreira David Lopes Ramos, Revista de Vinhos</span></dd></div>
+        <div><dt><b>3</b></dt><dd><span>Livros publicados</span></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Percurso -->
+  <section class="chapters" id="percurso">
+    <div class="chapters__intro"><h2 class="sec__title rise">Percurso</h2></div>
+
+    <article class="chapter">
+      <img class="chapter__bg" src="../assets/img/MCS_restaurantes_01-0x0.jpg" alt="" loading="lazy">
+      <div class="chapter__in rise"><p class="cap chapter__when">1992 · Maia</p><h3>Quinta dos Vales</h3><p>O primeiro restaurante, numa quinta rústica nos arredores do Porto. A cozinha deixa de ser um biscate e passa a ser o ofício.</p></div>
+    </article>
+    <article class="chapter r">
+      <img class="chapter__bg" src="../assets/img/MCS_site_livro_na_cozinha_1200x700-0x0.jpg" alt="" loading="lazy">
+      <div class="chapter__in rise"><p class="cap chapter__when">1994 · Foz do Porto</p><h3>Restaurante do Miguel</h3><p>A revista Exame põe-no entre os doze melhores restaurantes do país. É ali que começam os jantares vínicos com Dirk Niepoort, Luís Pato e Ricardo Nicolau de Almeida.</p></div>
+    </article>
+    <article class="chapter">
+      <img class="chapter__bg" src="../assets/img/BB_1280_01.jpg" alt="" loading="lazy">
+      <div class="chapter__in rise"><p class="cap chapter__when">1997 — 2008 · Porto</p><h3>Bull &amp; Bear</h3><p>No edifício da Bolsa. Garfo de Ouro em 2003, três Sóis Repsol em 2004 e, no mesmo ano, um dos 25 melhores restaurantes da Europa para o Financial Times.</p></div>
+    </article>
+    <article class="chapter r">
+      <img class="chapter__bg" src="../assets/img/MCS_Ideias_Soltas_2560x1400_01-1980x1083.jpg" alt="" loading="lazy">
+      <div class="chapter__in rise"><p class="cap chapter__when">2001 — 2007</p><h3>Paris, Xangai, Larousse</h3><p>Cozinheiro do Ano 2000 pela Academia Portuguesa de Gastronomia. Ensina na Ferrandi, em Paris, cozinha em Xangai o jantar oferecido pela Presidência da República e assina três receitas no Larousse Gastronomique.</p></div>
+    </article>
+    <article class="chapter">
+      <img class="chapter__bg" src="../assets/img/deCastro_01-1980x1083.jpg" alt="" loading="lazy">
+      <div class="chapter__in rise"><p class="cap chapter__when">2009 — 2019 · Lisboa</p><h3>deCastro, Largo, Less</h3><p>Troca o Porto pela capital. Abre o deCastro, nas Avenidas Novas, dedicado aos petiscos, e dirige a cozinha do Largo, no Chiado, e do Less, no Príncipe Real.</p></div>
+    </article>
+    <article class="chapter r">
+      <img class="chapter__bg" src="../assets/img/MerRib_10-1600x875.jpg" alt="" loading="lazy">
+      <div class="chapter__in rise"><p class="cap chapter__when">Desde 2014 · Lisboa</p><h3>Time Out Market</h3><p>No Mercado da Ribeira, o espaço com o seu nome serve ao balcão a cozinha regional de norte a sul.</p></div>
+    </article>
+    <article class="chapter">
+      <img class="chapter__bg" src="../assets/img/Casario_01_2560x1400-1980x1083.jpg" alt="" loading="lazy">
+      <div class="chapter__in rise"><p class="cap chapter__when">Desde 2012 · Porto e Gaia</p><h3>Casario e deCastro Gaia</h3><p>Regressa ao Norte com a Gran Cruz. Primeiro o deCastro Gaia, no Espaço Porto Cruz; em 2018, o Casario, na Ribeira, a quatro mãos com José Guedes.</p></div>
+    </article>
+    <article class="chapter r">
+      <img class="chapter__bg" src="../assets/img/Cantina_de_Ventozelo_02_2560x1400-1980x1083.jpg" alt="" loading="lazy">
+      <div class="chapter__in rise"><p class="cap chapter__when">Desde 2019 · Douro</p><h3>Cantina de Ventozelo</h3><p>Na Quinta de Ventozelo, em São João da Pesqueira, recupera a cozinha da região, feita com o que está por perto.</p></div>
+    </article>
+  </section>
+
+  <!-- Livros -->
+  <section class="sec" id="livros">
+    <div class="sec__head"><h2 class="sec__title rise">Livros</h2></div>
+    <div class="books">
+      <figure class="book rise"><img src="../assets/img/Livro_uma_cozinha_de_aromas_capa-1.jpg" alt="Uma Cozinha de Aromas"><figcaption><span class="cap dim">2001</span><b>Uma Cozinha de Aromas</b></figcaption></figure>
+      <figure class="book rise"><img src="../assets/img/Livro_The_Food_and_cooking_Portugal_CAPA.jpg" alt="The Food &amp; Cooking of Portugal"><figcaption><span class="cap dim">2007</span><b>The Food &amp; Cooking of Portugal</b></figcaption></figure>
+      <figure class="book rise"><img src="../assets/img/Livro_Na_cozinha_de_MCS_CAPA.jpg" alt="Na Cozinha de Miguel Castro e Silva"><figcaption><span class="cap dim">2016</span><b>Na Cozinha de Miguel Castro e Silva</b></figcaption></figure>
+    </div>
+  </section>
+
+  <!-- Imprensa -->
+  <section class="sec press" id="imprensa">
+    <p class="cap rise">Imprensa</p>
+    <blockquote class="rise" style="margin-top:1.4rem">“Um dos chefs do momento na cidade.”<cite class="cap dim">Time Out Lisboa, 2010</cite></blockquote>
+    <ul class="press__list rise">
+      <li>Financial Times</li><li>Expresso</li><li>Time Out</li><li>Fugas</li><li>Visão</li><li>Evasões</li><li>Revista de Vinhos</li><li>Observador</li>
+    </ul>
+  </section>
+
+  <!-- Contacto -->
+  <section class="sec contact" id="contacto">
+    <div>
+      <p class="cap" style="color:rgba(255,255,255,.55)">Contacto</p>
+      <h2 style="margin-top:1.2rem">Vamos pôr<br><em>a mesa?</em></h2>
+      <p class="contact__note">Eventos privados, consultoria ou imprensa. A resposta chega por email.</p>
+      <dl class="contact__meta">
+        <div><dt class="cap">Instagram</dt><dd>@chef_castrosilvamiguel</dd></div>
+        <div><dt class="cap">Facebook</dt><dd>Chef Miguel Castro e Silva</dd></div>
+      </dl>
+    </div>
+    <form onsubmit="return false">
+      <p class="cap" style="color:rgba(255,255,255,.6)">Assunto</p>
+      <div class="opts" data-group>
+        <button type="button" class="on">Evento privado</button><button type="button">Consultoria</button><button type="button">Imprensa</button><button type="button">Outro</button>
+      </div>
+      <label class="field cap">Nome<span></span></label>
+      <label class="field cap">Email<span></span></label>
+      <label class="field cap">Mensagem<span class="area"></span></label>
+      <button class="send" type="submit">Enviar</button>
+    </form>
+  </section>
+</main>
+
+<footer class="foot cap">
+  <span>© 2026 Miguel Castro e Silva</span>
+  <span class="etiqueta-mawebs"><span class="etiqueta-mawebs__nome">MA WEBS</span><span class="etiqueta-mawebs__local">FEITO À MÃO EM MAFRA</span></span>
+  <span>Fotografias © Miguel Castro e Silva</span>
+</footer>
+
+<div class="lb" id="lb" aria-hidden="true">
+  <button class="lb__x" type="button" id="lbx">Fechar ✕</button>
+  <button class="lb__p" type="button" id="lbp" aria-label="Anterior">←</button>
+  <img id="lbi" alt="">
+  <div class="lb__cap"><b id="lbc"></b><span class="cap" id="lbh"></span></div>
+  <button class="lb__n" type="button" id="lbn" aria-label="Seguinte">→</button>
+</div>
+
+<script>
+  // bar: transparent over the hero, solid after it
+  var bar = document.getElementById('bar'), hero = document.querySelector('.hero');
+  function onScroll() { bar.classList.toggle('solid', scrollY > hero.offsetHeight - 80); }
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  // dish strips: arrows move one photo at a time
+  document.querySelectorAll('[data-strip]').forEach(function (s) {
+    var t = s.querySelector('.track');
+    s.querySelectorAll('[data-dir]').forEach(function (b) {
+      b.addEventListener('click', function () { var w = t.querySelector('.dish').offsetWidth + 16; t.scrollBy({ left: w * +b.dataset.dir, behavior: 'smooth' }); });
+    });
+  });
+
+  // enlarge photo
+  var dishes = [].slice.call(document.querySelectorAll('.dish')), cur = 0;
+  var lb = document.getElementById('lb'), lbi = document.getElementById('lbi'), lbc = document.getElementById('lbc'), lbh = document.getElementById('lbh');
+  function show(i) {
+    cur = (i + dishes.length) % dishes.length;
+    var d = dishes[cur], strip = d.closest('[data-strip]').querySelector('h3');
+    lbi.src = d.querySelector('img').src; lbc.textContent = d.querySelector('figcaption').textContent;
+    lbh.textContent = strip.childNodes[0].textContent + ' · ' + strip.querySelector('span').textContent;
+  }
+  function openLb(i) { show(i); lb.classList.add('open'); lb.setAttribute('aria-hidden', 'false'); document.body.classList.add('locked'); }
+  function closeLb() { lb.classList.remove('open'); lb.setAttribute('aria-hidden', 'true'); document.body.classList.remove('locked'); }
+  dishes.forEach(function (d, i) { d.addEventListener('click', function () { openLb(i); }); });
+  document.getElementById('lbx').addEventListener('click', closeLb);
+  document.getElementById('lbp').addEventListener('click', function () { show(cur - 1); });
+  document.getElementById('lbn').addEventListener('click', function () { show(cur + 1); });
+  lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
+  addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { closeLb(); closeMenu(); }
+    if (lb.classList.contains('open') && e.key === 'ArrowRight') show(cur + 1);
+    if (lb.classList.contains('open') && e.key === 'ArrowLeft') show(cur - 1);
+  });
+
+  // mobile menu
+  var mnav = document.getElementById('mnav');
+  function closeMenu() { mnav.classList.remove('open'); document.body.classList.remove('locked'); }
+  document.getElementById('burger').addEventListener('click', function () { mnav.classList.add('open'); document.body.classList.add('locked'); });
+  document.getElementById('mclose').addEventListener('click', closeMenu);
+  mnav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeMenu); });
+
+  // subject: one option at a time
+  document.querySelectorAll('[data-group]').forEach(function (g) {
+    g.addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; g.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); }); });
+  });
+
+  // soft entrance
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.rise').forEach(function (el) { io.observe(el); });
+  } else { document.querySelectorAll('.rise').forEach(function (el) { el.classList.add('in'); }); }
+</script>
+</body>
+</html>
